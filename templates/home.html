@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <section class="movies-grid">
+    {% if query %}
+      <div style="grid-column:1/-1;color:#fff;margin-bottom:8px">Search results for "{{query}}" — {{movies|length}} found</div>
+    {% endif %}
+    {% for m in movies %}
+      {% if role != 'admin' %}
+      <a class="card-link" href="/movie/{{m.id}}">
+        <div class="card">
+          <img src="/static/{{m.poster}}" alt="{{m.title}} poster" class="poster">
+          <div class="card-body">
+            <h4>{{m.title}}</h4>
+            <p>Director: {{m.director}}</p>
+            <p>Rating: {{m.rating}}</p>
+            <div class="user-actions">
+              <span class="btn red">View</span>
+            </div>
+          </div>
+        </div>
+      </a>
+      {% else %}
+      <div class="card">
+        <img src="/static/{{m.poster}}" alt="{{m.title}} poster" class="poster">
+        <div class="card-body">
+          <h4>{{m.title}}</h4>
+          <p>Director: {{m.director}}</p>
+          <p>Rating: {{m.rating}}</p>
+          <div class="admin-actions">
+            <a href="/edit_movie/{{m.id}}" class="btn red">Edit</a>
+            <form method="post" action="/delete_movie/{{m.id}}" style="display:inline"><button class="btn red">Delete</button></form>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    {% endfor %}
+  </section>
+
+  <!-- Pagination -->
+  {% if pagination %}
+  <div style="grid-column:1/-1;display:flex;justify-content:center;gap:8px;margin-top:28px;flex-wrap:wrap">
+    {% if pagination.has_prev %}
+      <a href="?q={{query or ''}}&page={{pagination.prev_num}}" class="btn red" style="text-decoration:none">← Previous</a>
+    {% endif %}
+    
+    {% set start_page = [1, pagination.page - 2]|max %}
+    {% set end_page = [pagination.pages, pagination.page + 2]|min %}
+    
+    {% if start_page > 1 %}
+      <a href="?q={{query or ''}}&page=1" class="btn red" style="text-decoration:none">1</a>
+      {% if start_page > 2 %}<span style="color:var(--muted)">...</span>{% endif %}
+    {% endif %}
+    
+    {% for p in range(start_page, end_page + 1) %}
+      {% if p == pagination.page %}
+        <span style="color:var(--red);padding:10px 14px;border-radius:10px;background:rgba(255,43,43,0.2)">{{p}}</span>
+      {% else %}
+        <a href="?q={{query or ''}}&page={{p}}" class="btn red" style="text-decoration:none">{{p}}</a>
+      {% endif %}
+    {% endfor %}
+    
+    {% if end_page < pagination.pages %}
+      {% if end_page < pagination.pages - 1 %}<span style="color:var(--muted)">...</span>{% endif %}
+      <a href="?q={{query or ''}}&page={{pagination.pages}}" class="btn red" style="text-decoration:none">{{pagination.pages}}</a>
+    {% endif %}
+    
+    {% if pagination.has_next %}
+      <a href="?q={{query or ''}}&page={{pagination.next_num}}" class="btn red" style="text-decoration:none">Next →</a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+{% endblock %}

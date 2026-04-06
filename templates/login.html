@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <div class="login-wrap">
+    <h2 class="login-heading">Login</h2>
+    <div class="role-boxes">
+      <div class="role-box" data-role="admin" id="admin-box">Admin</div>
+      <div class="role-box" data-role="user" id="user-box">User</div>
+    </div>
+
+    <form id="login-form" method="post" action="/login">
+      <input type="hidden" name="role" id="role-input" value="admin">
+      <div class="field"><input name="username" placeholder="Username"></div>
+      <div class="field"><input name="password" type="password" placeholder="Password"></div>
+      <button class="btn red" type="submit">Login</button>
+    </form>
+
+    <form id="create-user-form" method="post" action="/create_user" class="hidden">
+      <h3>Create user</h3>
+      <div class="field"><input name="new_username" placeholder="Username"></div>
+      <div class="field"><input name="new_password" type="password" placeholder="Password"></div>
+      <button class="btn red" type="submit">Create</button>
+    </form>
+  </div>
+{% endblock %}

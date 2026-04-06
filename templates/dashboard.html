@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h2 style="color:#bfffbf">Your Dashboard</h2>
+  <section class="dash-grid">
+    <div class="dash-col">
+      <h3>Watchlist</h3>
+      {% for m in watchlist %}
+        <div class="dash-item"><a href="/movie/{{m.id}}"><img src="/static/{{m.poster}}"><div class="dash-title">{{m.title}}</div></a></div>
+      {% else %}
+        <div class="muted">No movies in watchlist</div>
+      {% endfor %}
+    </div>
+    <div class="dash-col">
+      <h3>Watched</h3>
+      {% for m in watched %}
+        <div class="dash-item"><a href="/movie/{{m.id}}"><img src="/static/{{m.poster}}"><div class="dash-title">{{m.title}}</div></a></div>
+      {% else %}
+        <div class="muted">No watched movies</div>
+      {% endfor %}
+    </div>
+    <div class="dash-col">
+      <h3>Favourites</h3>
+      {% for m in favourites %}
+        <div class="dash-item"><a href="/movie/{{m.id}}"><img src="/static/{{m.poster}}"><div class="dash-title">{{m.title}}</div></a></div>
+      {% else %}
+        <div class="muted">No favourites</div>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

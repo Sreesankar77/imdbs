@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h2>Add Movie</h2>
+  <form method="post" enctype="multipart/form-data">
+    <div class="field"><input name="title" placeholder="Title"></div>
+    <div class="field"><input name="director" placeholder="Director"></div>
+    <div class="field"><input name="rating" placeholder="Rating 0-10"></div>
+    <div class="field"><textarea name="description" placeholder="Description"></textarea></div>
+    <div class="field"><label>Poster</label><input type="file" name="poster"></div>
+    <div class="field"><label>Detail poster</label><input type="file" name="detail_poster"></div>
+    <div class="field"><label>Scene1</label><input type="file" name="scene1"></div>
+    <div class="field"><label>Scene2</label><input type="file" name="scene2"></div>
+    <div class="field"><label>Scene3</label><input type="file" name="scene3"></div>
+    <button class="btn red">Add</button>
+  </form>
+{% endblock %}

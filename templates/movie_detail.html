@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <div class="movie-detail-wrap">
+    <div class="movie-detail-top">
+      <button class="btn back-btn" onclick="history.back()">← Back</button>
+    </div>
+
+    <div class="movie-detail-left">
+      <figure>
+        <img src="/static/{{movie.detail_poster}}" class="detail-poster" alt="{{movie.title}} poster">
+        <figcaption class="poster-caption">{{movie.title}} poster</figcaption>
+      </figure>
+      {% if role == 'user' %}
+      <div class="detail-actions-left" style="margin-top:12px;display:flex;gap:8px;flex-direction:column">
+        <form method="post" action="/add_to_watchlist/{{movie.id}}" style="width:100%"><button type="submit" class="btn red" style="width:100%">Add to Watchlist</button></form>
+        <form method="post" action="/mark_watched/{{movie.id}}" style="width:100%"><button type="submit" class="btn red" style="width:100%">Mark Watched</button></form>
+        <form method="post" action="/add_fav/{{movie.id}}" style="width:100%"><button type="submit" class="btn red" style="width:100%">Add to Favourites</button></form>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="movie-detail-right">
+      <div class="detail-panel">
+        <h2 class="detail-title">{{movie.title}}</h2>
+        <p class="detail-meta">Director: {{movie.director}} &nbsp; • &nbsp; Rating: {{movie.rating}}</p>
+        <div class="detail-desc">{{movie.description}}</div>
+
+        <div class="detail-scenes">
+          {% if movie.scene1 %}<img src="/static/{{movie.scene1}}" alt="scene1">{% endif %}
+          {% if movie.scene2 %}<img src="/static/{{movie.scene2}}" alt="scene2">{% endif %}
+          {% if movie.scene3 %}<img src="/static/{{movie.scene3}}" alt="scene3">{% endif %}
+        </div>
+
+        {% if related_movies %}
+        <div class="related-by-director">
+          <h3>Other movies directed by <a href="{{ url_for('movies_by_director', director_name=movie.director) }}">{{ movie.director }}</a></h3>
+          <ul>
+          {% for m in related_movies %}
+            <li><a href="{{ url_for('movie_detail', mid=m.id) }}">{{ m.title }}</a> (rating: {{ m.rating }})</li>
+          {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

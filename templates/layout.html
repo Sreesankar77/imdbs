@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IMDBS</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/main.js" defer></script>
+  </head>
+  <body>
+    <header id="topbar" class="topbar">
+      {% if show_topbar_controls %}
+      <div class="left"> 
+        <div class="dropdown">
+          <button class="dropbtn">Menu</button>
+          <div class="dropdown-content" id="menu-items">
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div class="left"></div>
+      {% endif %}
+
+      <div class="center"><h1 class="title">IMDBS</h1></div>
+
+      {% if show_topbar_controls %}
+      <div class="right">
+        <form id="search-form" action="/search" method="get" class="search-form" onsubmit="">
+          <input type="search" name="q" placeholder="Search movies, director..." id="searchbox" autocomplete="off">
+          <button type="button" class="btn red search">Search</button>
+        </form>
+      </div>
+      {% else %}
+      <div class="right"></div>
+      {% endif %}
+    </header>
+    <script>
+      (function(){
+        const menu = document.getElementById('menu-items');
+        const role = '{{ role|default("") }}';
+        if(!menu) return;
+        if(role=='admin'){
+          menu.innerHTML = '<a href="/add_movie">Add Movie</a><a href="#">Delete Movie</a><a href="#">Add Top Rated</a><a href="#">Edit Movie</a><a href="/logout">Logout</a>'
+        } else if(role=='user'){
+          menu.innerHTML = '<a href="/search">Top Rated</a><a href="/dashboard">My Watchlist</a><a href="/dashboard">Watched</a><a href="/dashboard">Favourites</a><a href="/logout">Logout</a>'
+        } else {
+          menu.innerHTML = '<a href="/">Login</a>'
+        }
+      })();
+    </script>
+    <main class="container">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashes">
+          {% for cat, msg in messages %}
+            <li class="flash {{cat}}">{{msg}}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+  </html>

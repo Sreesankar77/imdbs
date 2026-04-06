@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h2>Edit Movie</h2>
+  <form method="post">
+    <div class="field"><input name="title" value="{{movie.title}}"></div>
+    <div class="field"><input name="director" value="{{movie.director}}"></div>
+    <div class="field"><input name="rating" value="{{movie.rating}}"></div>
+    <div class="field"><textarea name="description">{{movie.description}}</textarea></div>
+    <button class="btn red">Save</button>
+  </form>
+{% endblock %}
